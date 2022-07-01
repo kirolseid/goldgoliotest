@@ -20,8 +20,6 @@ app.post('/talented_reg', validation.talented, async (req, res) => {
 
     if (errValid.isEmpty()) {
 
-
-
         const tdata = await talentedModel.findOne({ email })
         if (!tdata) {
             const cdata = await corporate_infoModel.findOne({ email })
@@ -36,9 +34,6 @@ app.post('/talented_reg', validation.talented, async (req, res) => {
                             location: '', age: null, height: null, weight: null, salary: 0,
                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
                         });
-
-
-
 
                         const user = new User(username, email, userData[0]._id, 'talented');
 
@@ -87,12 +82,7 @@ app.post('/personal_reg', validation.personal, async (req, res) => {
                         })
 
 
-                        const user = new User(
-                            username,
-                            email,
-                            userData[0]._id,
-                            'personal_info'
-                        );
+                        const user = new User(username,email,userData[0]._id,'personal_info');
 
                         await user.addUser();
 
@@ -115,10 +105,15 @@ app.post('/personal_reg', validation.personal, async (req, res) => {
 });
 
 
+
+
+
+
 app.post('/corporate_reg', validation.coporation, async (req, res) => {
-    // console.log(req.body);
     const { username, company_field, email, phone, password, address } = req.body
+
     const errValid = validationResult(req)
+
     if (errValid.isEmpty()) {
 
         const tdata = await talentedModel.findOne({ email })
@@ -129,18 +124,17 @@ app.post('/corporate_reg', validation.coporation, async (req, res) => {
                 if (!pdata) {
                     bcrypt.hash(password, 7, async function (err, hash) {
                         // Store hash in your password DB
-                        await corporate_infoModel.insertMany({
+                        const userData = await personal_infoModel.insertMany({
                             username, company_field, email, phone, password: hash, address,
                             profilePic: '/assets/images/avatar.png', profilePic2: '/assets/images/avatar.png', about: '', numbOfFollower: '', rating: '',
                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
-                        });
-                        const user = new User(
-                            username,
-                            email,
-                            userData[0]._id,
-                            'corporate_info'
-                        );
+                        })
+
+
+                        const user = new User(username,email,userData[0]._id,'corporate_info');
+
                         await user.addUser();
+
 
                         res.json({ message: "success" })
                     });
@@ -158,8 +152,47 @@ app.post('/corporate_reg', validation.coporation, async (req, res) => {
         res.json({ "errors": errValid.array() })
     }
 });
-/////////////////////
-/////////////////////
+
+
+// app.post('/corporate_reg', validation.coporation, async (req, res) => {
+//     // console.log(req.body);
+//     const { username, company_field, email, phone, password, address } = req.body
+//     const errValid = validationResult(req)
+//     if (errValid.isEmpty()) {
+
+//         const tdata = await talentedModel.findOne({ email })
+//         if (!tdata) {
+//             const cdata = await corporate_infoModel.findOne({ email })
+//             if (!cdata) {
+//                 const pdata = await personal_infoModel.findOne({ email })
+//                 if (!pdata) {
+//                     bcrypt.hash(password, 7, async function (err, hash) {
+//                         // Store hash in your password DB
+//                         await corporate_infoModel.insertMany({
+//                             username, company_field, email, phone, password: hash, address,
+//                             profilePic: '/assets/images/avatar.png', profilePic2: '/assets/images/avatar.png', about: '', numbOfFollower: '', rating: '',
+//                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
+//                         });
+//                         const user = new User(username,email,userData[0]._id,'corporate_info');
+//                         await user.addUser();
+
+//                         res.json({ message: "success" })
+//                     });
+//                 } else {
+//                     res.json({ message: 'Email is exsit' })
+//                 }
+//             } else {
+//                 res.json({ message: 'Email is exsit' })
+//             }
+//         } else {
+//             res.json({ message: 'Email is exsit' })
+//         }
+
+//     } else {
+//         res.json({ "errors": errValid.array() })
+//     }
+// });
+
 
 
 module.exports = app
