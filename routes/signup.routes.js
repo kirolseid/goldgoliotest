@@ -134,7 +134,6 @@ app.post('/corporate_reg', validation.coporation, async (req, res) => {
                             profilePic: '/assets/images/avatar.png', profilePic2: '/assets/images/avatar.png', about: '', numbOfFollower: '', rating: '',
                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
                         });
-                        
                         const user = new User(
                             username,
                             email,
@@ -159,7 +158,8 @@ app.post('/corporate_reg', validation.coporation, async (req, res) => {
         res.json({ "errors": errValid.array() })
     }
 });
-
+/////////////////////
+/////////////////////
 
 
 module.exports = app

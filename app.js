@@ -41,6 +41,7 @@ const storage = multer.diskStorage({
 	}
 })
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
 function fileFilter(req, file, cb) {
 
@@ -65,7 +66,6 @@ app.post("/api/chat/uploadfiles", (req, res) => {
 const upload = multer({ dest: 'uploads', storage, fileFilter })
 
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 app.use(upload.single('file'))
 
 
@@ -161,12 +161,12 @@ initDb((error, client) => {
 });
 
 
-
+// okkkkkkkkkkkkkkkkk
 
 
 
 // mongoose.connect('mongodb://localhost:27017/goldGolio15');
-mongoose.connect(' mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolioMobiletest');
-// mongoose.connect('mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolio', {useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect('mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolio');
+mongoose.connect('mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolioMobiletest', { useNewUrlParser: true, useUnifiedTopology: true });
 app.get('/', (req, res) => res.send('Hello World!'))
 // app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
