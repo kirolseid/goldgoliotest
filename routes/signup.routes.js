@@ -34,15 +34,10 @@ app.post('/talented_reg', validation.talented, async (req, res) => {
                             location: '', age: null, height: null, weight: null, salary: 0,
                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
                         });
-
                         const user = new User(username, email, userData[0]._id, 'talented');
-
                         await user.addUser();
-
                         res.json({ message: "success" })
                     });
-
-
                 } else {
                     res.json({ message: 'Email is exsit' })
                 }
@@ -52,7 +47,6 @@ app.post('/talented_reg', validation.talented, async (req, res) => {
         } else {
             res.json({ message: 'Email is exsit' })
         }
-
     } else {
         res.json({ "errors": errValid.array() })
     }
@@ -77,12 +71,17 @@ app.post('/personal_reg', validation.personal, async (req, res) => {
                         // Store hash in your password DB
                         const userData = await personal_infoModel.insertMany({
                             username, email, phone, password: hash, position,
-                            profilePic: '/assets/images/avatar.png', about: '', numbOfFollower: 0, rating: '',
+                            profilePic: '/assets/images/avatar.png', about: '', numbOfFollower: 0, rating: 0,
                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
                         })
 
 
-                        const user = new User(username,email,userData[0]._id,'personal_info');
+                        const user = new User(
+                            username,
+                            email,
+                            userData[0]._id,
+                            'personal_info'
+                        );
 
                         await user.addUser();
 
@@ -105,15 +104,10 @@ app.post('/personal_reg', validation.personal, async (req, res) => {
 });
 
 
-
-
-
-
 app.post('/corporate_reg', validation.coporation, async (req, res) => {
+    // console.log(req.body);
     const { username, company_field, email, phone, password, address } = req.body
-
     const errValid = validationResult(req)
-
     if (errValid.isEmpty()) {
 
         const tdata = await talentedModel.findOne({ email })
@@ -126,15 +120,16 @@ app.post('/corporate_reg', validation.coporation, async (req, res) => {
                         // Store hash in your password DB
                         const userData = await corporate_infoModel.insertMany({
                             username, company_field, email, phone, password: hash, address,
-                            profilePic: '/assets/images/avatar.png', profilePic2: '/assets/images/avatar.png', about: '', numbOfFollower: '', rating: '',
+                            profilePic: '/assets/images/avatar.png',  about: '', numbOfFollower: 0, rating: 0,
                             linkedin: '', youtube: '', insta: '', twitter: '', tiktok: ''
-                        })
-
-
-                        const user = new User(username,email,userData[0]._id,'corporate_info');
-
+                        });
+                        const user = new User(
+                            username,
+                            email,
+                            userData[0]._id,
+                            'corporate_info'
+                        );
                         await user.addUser();
-
 
                         res.json({ message: "success" })
                     });
@@ -152,9 +147,8 @@ app.post('/corporate_reg', validation.coporation, async (req, res) => {
         res.json({ "errors": errValid.array() })
     }
 });
-
-
-
+/////////////////////
+/////////////////////
 
 
 module.exports = app

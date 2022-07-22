@@ -83,9 +83,7 @@ exports.getSharedChatRoom = async (req, res, next) => {
 	}
 };
 exports.createChatRoom = async (req, res, next) => {
-	console.log('patchAcceptFriendRequest');
-	const { userFromId, userToAddId, LoginProfiletype } = req.body;//me
-
+	const { userFromId, userToAddId } = req.body;//me
 	try {
 		const userFromData = await User.getUser(userFromId);
 		const userToData = await User.getUser(userToAddId);
@@ -127,5 +125,22 @@ exports.removeChat = async (req, res, next) => {
 	} catch (error) {
 		if (!error.statusCode) error.statusCode = 500;
 		next(error);
+	}
+};
+
+
+exports.blockChat = async (req, res, next) => {
+	const { chatRoomId, userId } = req.body;//me
+
+	try {
+		const chatRoom = await ChatRoom.GetChatRoomById(chatRoomId);
+		const query = chatRoom.blocked.block !== true ? { $set: { blocked: { block: true, blockedBy: userId } } } : { $set: { blocked: { block: false, blockedBy: '' } } };
+		await ChatRoom.updateChatCodition({ _id: new ObjectId(chatRoomId) }, query);
+		getIo().emit('blocked', chatRoom);
+		res.status(200).json({ message: `Friend blocked successfully`, chatRoom });
+
+	} catch (error) {
+		console.log(error);
+		getIo().emit('blocked', { error: error.message });
 	}
 };

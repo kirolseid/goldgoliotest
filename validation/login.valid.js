@@ -2,12 +2,12 @@ const { check } = require('express-validator');
 
 module.exports.login=[
     check('email').isEmail(),
-    check('password').isStrongPassword(),
+    // check('password').matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
 ]
 
 
 module.exports.newPass=[
-    check('newPassword').isStrongPassword(),
+    // check('newPassword').matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
    
 ]
 

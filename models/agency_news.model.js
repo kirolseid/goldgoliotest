@@ -5,8 +5,11 @@ const mongoose = require('mongoose');
 const agency_newsSchema =mongoose.Schema({
     agencyID:mongoose.Schema.Types.ObjectId,
     Pic:String,
+    mediaType:String,
     title:String,
     caption:String,
+    videoUrl:String,
+
 })
 
 

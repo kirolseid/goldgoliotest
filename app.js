@@ -25,13 +25,17 @@ app.use((error, req, res, next) => {
 	const errorMessage = error.message ? error.message : 'something went wrong';
 	const statusCode = error.statusCode ? error.statusCode : 500;
 	console.log('statusCode', statusCode);
-
 	res.status(statusCode).json({ error: errorMessage });
 });
 
 
 
 const storage = multer.diskStorage({
+	
+     limits: {
+     fileSize: 100000000000000000000 // 10000000 Bytes = 10 MB
+     },
+
 	destination: function (req, file, cb) {
 		cb(null, 'uploads')
 	},
@@ -40,6 +44,7 @@ const storage = multer.diskStorage({
 		cb(null, uniqueSuffix + '-' + file.originalname)
 	}
 })
+
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))
 
@@ -53,7 +58,12 @@ function fileFilter(req, file, cb) {
 	}
 	// To accept the file pass `true`, like so:
 }
-var upload2 = multer({ storage: storage }).single("file")
+var upload2 = multer({ storage: storage,
+	limits: {
+		fileSize: 10000000 // 10000000 Bytes = 10 MB
+		},
+
+}).single("file")
 app.post("/api/chat/uploadfiles", (req, res) => {
 	upload2(req, res, err => {
 		if (err) {
@@ -63,30 +73,30 @@ app.post("/api/chat/uploadfiles", (req, res) => {
 	})
 });
 
-const upload = multer({ dest: 'uploads', storage, fileFilter })
+const upload = multer({ dest: 'uploads', storage,
+limits: {
+	fileSize: 100000000000000000 // 10000000 Bytes = 10 MB
+	}, fileFilter })
+
 
 
 app.use(upload.single('file'))
 
 
 
-app.use(require('./routes/signup.routes'));
-app.use(require('./routes/signin.routes'));
-app.use(require('./routes/getDetails.routes'));
-app.use(require('./routes/updateProfils.routes'));
-app.use(require('./routes/uploadMedia.routes'));
-app.use(require('./routes/follow.routes'));
-app.use(require('./routes/offer.routes'));
-app.use(require('./routes/Likes&comments.routes'));
 
 
 
 
-app.post("/upload", (req, res) => {
+
+app.post("/upload",async (req, res) => {
 	const file = req.file;
 	const imagename = req.file.filename
+
+	console.log(req.file);
+
 	// const imageURL = 'http://localhost:3000/uploads/'+imagename
-	const imageURL = req.protocol + "://" + req.headers.host + '/uploads/' + imagename
+	 const imageURL = await req.protocol + "://" + req.headers.host + '/uploads/' + imagename
 	console.log(file);
 
 	if (file) {
@@ -99,7 +109,14 @@ app.post("/upload", (req, res) => {
 })
 
 
-
+app.use(require('./routes/signup.routes'));
+app.use(require('./routes/signin.routes'));
+app.use(require('./routes/getDetails.routes'));
+app.use(require('./routes/updateProfils.routes'));
+app.use(require('./routes/uploadMedia.routes'));
+app.use(require('./routes/follow.routes'));
+app.use(require('./routes/offer.routes'));
+app.use(require('./routes/Likes&comments.routes'));
 
 app.use(express.static(path.join(__dirname, "public")))
 app.use("/uploads", express.static(path.join(__dirname, "uploads")))
@@ -165,8 +182,8 @@ initDb((error, client) => {
 
 
 
-// mongoose.connect('mongodb://localhost:27017/goldGolio15');
+mongoose.connect('mongodb://localhost:27017/goldGolio15');	
 // mongoose.connect('mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolio');
-mongoose.connect('mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolioMobiletest', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb+srv://admin:admin@cluster0.9aoqp.mongodb.net/GoldGolio100', { useNewUrlParser: true, useUnifiedTopology: true });
 app.get('/', (req, res) => res.send('Hello World!'))
 // app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))

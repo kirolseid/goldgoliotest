@@ -26,11 +26,7 @@ app.post('/getDtalilsForlogin',async(req,res)=>{
     }else if(type==="person"){
         const loginData= await personal_infoModel.findOne({_id:Id})
         res.json({loginData})
-        
     }
-
-
-
 })
 
 
@@ -159,7 +155,7 @@ app.get('/personalProfiles',async(req,res)=>{
 
 
 app.get('/NewsAgencies',async(req,res)=>{
-    const news = await NewsModel.find()
+    const news = await NewsModel.find().sort({_id:-1})
     // console.log(news);
     res.json({news})
 })
@@ -174,10 +170,16 @@ app.get('/latestPhoto',async(req,res)=>{
 
 
 app.get('/latestVedio',async(req,res)=>{
-    const latestVedio = await talentmedia.find({ type: 'video' } ).sort({_id:-1})
+    const latestVedio = await talentmedia.find({ type:{$ne:"image"} } ).sort({_id:-1})
+    
+
     // console.log(latestVedio);
     res.json({latestVedio})
 })
+
+
+
+////////////////////
 
 app.post('/getUsermedia',async(req,res)=>{
     const{ID}=req.body
@@ -195,11 +197,9 @@ app.post('/userPhotos',async(req,res)=>{
 })
 
 
-
-
 app.post('/userVedio',async(req,res)=>{
     const{ID}=req.body
-    const userVedio = await talentmedia.find({ UserID:ID,type:"video"}).sort({_id:-1})
+    const userVedio = await talentmedia.find({ UserID:ID,type:{$ne:"image"}}).sort({_id:-1})
     // console.log(userVedio);
     res.json({userVedio})
 })
@@ -229,68 +229,80 @@ app.post('/getAgencyProfiles',async(req,res)=>{
 
 
 app.get('/getActors',async(req,res)=>{
-    // const{Id}=req.body
+    
     const actors = await  talentedModel.find({$or:[{talent1:'Actor'},{talent2:'Actor'},{talent3:'Actor'}] }).sort({_id:-1})
     res.json({actors})
 })
 
 app.get('/getTopActors',async(req,res)=>{
-    // const{Id}=req.body
+ 
     const topactors = await  talentedModel.find({$or:[{talent1:'Actor'},{talent2:'Actor'},{talent3:'Actor'}] ,rating : { $gt:3}}).sort({_id:-1}).limit(3)
     res.json({topactors})
 })
 
 app.get('/getSinger',async(req,res)=>{
-    // const{Id}=req.body
+  
     const Singer = await  talentedModel.find({$or:[{talent1:'Singer'},{talent2:'Singer'},{talent3:'Singer'}] }).sort({_id:-1})
     res.json({Singer})
 })
 
 
 app.get('/getTopSinger',async(req,res)=>{
-    // const{Id}=req.body
+  
     const topSinger = await  talentedModel.find({$or:[{talent1:'Singer'},{talent2:'Singer'},{talent3:'Singer'}],rating : { $gt:3} }).sort({_id:-1}).limit(3)
     res.json({topSinger})
 })
 
 app.get('/getfootball',async(req,res)=>{
-    // const{Id}=req.body
+  
     const football = await  talentedModel.find({$or:[{talent1:'Football_Player'},{talent2:'Football_Player'},{talent3:'Football_Player'}] }).sort({_id:-1})
     res.json({football})
 })
 
 app.get('/getTopfootball',async(req,res)=>{
-    // const{Id}=req.body
+  
     const topfootball = await  talentedModel.find({$or:[{talent1:'Football_Player'},{talent2:'Football_Player'},{talent3:'Football_Player'}],rating : { $gt:3}  }).sort({_id:-1}).limit(3)
     res.json({topfootball})
 })
 
 app.get('/getphotogharaphy',async(req,res)=>{
-    // const{Id}=req.body
+  
     const photogharaphy = await  talentedModel.find({$or:[{talent1:'Photographer'},{talent2:'Photographer'},{talent3:'Photographer'}] }).sort({_id:-1})
     res.json({photogharaphy})
 })
 
 
 app.get('/getTopPhotogharaphy',async(req,res)=>{
-    // const{Id}=req.body
+  
     const topPhotogharaphy = await  talentedModel.find({$or:[{talent1:'Photographer'},{talent2:'Photographer'},{talent3:'Photographer'}],rating : { $gt:3} }).sort({_id:-1}).limit(3)
     res.json({topPhotogharaphy})
 })
 
 
 app.get('/getart',async(req,res)=>{
-    // const{Id}=req.body
+  
     const art = await  talentedModel.find({$or:[{talent1:'Art_Director'},{talent2:'Art_Director'},{talent3:'Art_Director'}] }).sort({_id:-1})
     res.json({art})
 })
 
 app.get('/getTopart',async(req,res)=>{
-    // const{Id}=req.body
+  
     const topart = await  talentedModel.find({$or:[{talent1:'Art_Director'},{talent2:'Art_Director'},{talent3:'Art_Director'}],rating : { $gt:3}  }).sort({_id:-1})
     res.json({topart})
 })
 
+
+app.get('/getmodel',async(req,res)=>{
+  
+    const models = await  talentedModel.find({$or:[{talent1:'Model'},{talent2:'Model'},{talent3:'Model'}] }).sort({_id:-1})
+    res.json({models})
+})
+
+app.get('/getTopmodel',async(req,res)=>{
+  
+    const topmodels = await  talentedModel.find({$or:[{talent1:'Model'},{talent2:'Model'},{talent3:'Model'}],rating : { $gt:3}  }).sort({_id:-1})
+    res.json({topmodels})
+})
 
 
 
@@ -300,6 +312,9 @@ app.post('/getPhotoDetails',async(req,res)=>{
     res.json({Photo})
     // console.log(Photo);
 })
+
+
+
 
 
 

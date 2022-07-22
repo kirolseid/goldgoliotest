@@ -89,7 +89,7 @@ app.post('/forgetPass',async(req, res) => {
     const {email} =req.body
     let x = Math.floor(100000 + Math.random() * 900000);
     
-
+console.log(email,x);
    
 
     const tdata = await talentedModel.findOne({email})
@@ -111,62 +111,32 @@ app.post('/forgetPass',async(req, res) => {
                                subject: "Verification Code ",// Subject line
                                html: 
                                `
-                               <div  style=" width : 80%; margin: auto;">
-                               <div class="logo " style=" margin-top:20px ;text-align: center;" >
-                               
-                               <img src="cid:unique"/>
-                               </div>
-                               
-                               <h2 style="font-family: 'Poppins';
-                               font-style: normal;
-                               font-weight: 600;
-                               font-size: 50px;
-                               line-height: 75px;
-                               /* identical to box height */
-                               text-align: center;
-                               
-                               color: #111111;">Your verification code</h2>
-                               <h3 style="font-family: 'Poppins';
-                               font-style: normal;
-                               font-weight: 600;
-                               font-size: 50px;
-                               line-height: 75px;
-                               /* identical to box height */
-                               text-align: center;
-                               
-                               color: #111111;
-                               width: 15%;
-                               margin: auto;
-                               border-bottom:3px dashed goldenrod ;
-                               
-                               "> ${x}</h3>
-                               
-                               <p style="font-family: 'Poppins';
-                               font-style: normal;
-                               font-weight: 400;
-                               font-size: 30px;
-                               line-height: 45px;
-                               text-align: center;
-                               
-                               color: #000000;
-                               ">lf you didn't request a code
-                                   you can safely ignore this email.</p>
-                               
-                               
-                                   <hr>
-                               
-                                   <p style="font-family: 'Poppins';
-                                   font-style: normal;
-                                   font-weight: 500;
-                                   font-size: 25px;
-                                   line-height: 38px;
-                                   /* identical to box height */
-                                   
-                                   text-align: center;
-                                   color: #000000;
-                                   ">All content Copyright ©Goldgolio </p>
-                               
-                               </div>
+                               <!DOCTYPE html>
+                               <html lang="en">
+                               <head>
+                                   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500&family=Roboto&family=Rubik&display=swap" rel="stylesheet">
+                       <style>
+                           .logo{margin-top:20px ;text-align: center}
+                           h2{font-family: 'Poppins';font-style: normal;font-weight: 600;font-size: 50px;line-height: 75px;/* identical to box height */text-align: center;color: #111111;}
+                           h3{font-family: 'Poppins';font-style: normal;font-weight: 600;font-size: 50px;line-height: 75px;/* identical to box height */color: #111111;text-align: center;margin: auto;border-bottom-width:30px ;}
+                           .p1{font-family: 'Poppins';font-style: normal;font-weight: 400;font-size: 30px;line-height: 45px;text-align: center;color: #000000;}
+                           .p2{font-family: 'Poppins';font-style: normal;font-weight: 500;font-size: 25px;line-height: 38px;/* identical to box height */text-align: center;color: #000000;}
+                           @media all  and (min-width: 100px) and (max-width:760px) {h2{font-size: 20px; } h3{font-size: 30px; } .p1{font-size: 14px;} .p2{font-size: 16px;}}
+                       </style>
+                               </head>
+                               <body>
+                                   <div style=" width : 80%; margin: auto;">
+                                       <div class="logo" >
+                                       <img src="cid:unique"/>    
+                                       </div>
+                                       <h2 >Your verification code</h2>
+                                       <h3 > ${x}</h3>
+                                       <p class="p1">lf you didn't request a code <br> you can safely ignore this email.</p>
+                                           <hr>
+                                           <p  class='p2'>All content Copyright ©Goldgolio </p>
+                                       </div>
+                               </body>
+                               </html>
                                        `
                ,
                
@@ -186,6 +156,7 @@ app.post('/forgetPass',async(req, res) => {
                                 if(veremail){
                                     await verif_codeModel.updateOne({email:email},{code:x})
                                 }else{
+                                    console.log("Dfg");
                                     await verif_codeModel.insertMany({email,code:x})
                                 }
                     }
@@ -201,62 +172,32 @@ app.post('/forgetPass',async(req, res) => {
               
                 html: 
                 `
-                <div  style=" width : 80%; margin: auto;">
-                <div class="logo " style=" margin-top:20px ;text-align: center;" >
-                
-                <img src="cid:unique"/>
-                </div>
-                
-                <h2 style="font-family: 'Poppins';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 50px;
-                line-height: 75px;
-                /* identical to box height */
-                text-align: center;
-                
-                color: #111111;">Your verification code</h2>
-                <h3 style="font-family: 'Poppins';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 50px;
-                line-height: 75px;
-                /* identical to box height */
-                text-align: center;
-                
-                color: #111111;
-                width: 15%;
-                margin: auto;
-                border-bottom:3px dashed goldenrod ;
-                
-                "> ${x}</h3>
-                
-                <p style="font-family: 'Poppins';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 30px;
-                line-height: 45px;
-                text-align: center;
-                
-                color: #000000;
-                ">lf you didn't request a code
-                    you can safely ignore this email.</p>
-                
-                
-                    <hr>
-                
-                    <p style="font-family: 'Poppins';
-                    font-style: normal;
-                    font-weight: 500;
-                    font-size: 25px;
-                    line-height: 38px;
-                    /* identical to box height */
-                    
-                    text-align: center;
-                    color: #000000;
-                    ">All content Copyright ©Goldgolio </p>
-                
-                </div>
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500&family=Roboto&family=Rubik&display=swap" rel="stylesheet">
+        <style>
+            .logo{margin-top:20px ;text-align: center}
+            h2{font-family: 'Poppins';font-style: normal;font-weight: 600;font-size: 50px;line-height: 75px;/* identical to box height */text-align: center;color: #111111;}
+            h3{font-family: 'Poppins';font-style: normal;font-weight: 600;font-size: 50px;line-height: 75px;/* identical to box height */color: #111111;text-align: center;margin: auto;border-bottom-width:30px ;}
+            .p1{font-family: 'Poppins';font-style: normal;font-weight: 400;font-size: 30px;line-height: 45px;text-align: center;color: #000000;}
+            .p2{font-family: 'Poppins';font-style: normal;font-weight: 500;font-size: 25px;line-height: 38px;/* identical to box height */text-align: center;color: #000000;}
+            @media all  and (min-width: 100px) and (max-width:760px) {h2{font-size: 20px; } h3{font-size: 30px; } .p1{font-size: 14px;} .p2{font-size: 16px;}}
+        </style>
+                </head>
+                <body>
+                    <div style=" width : 80%; margin: auto;">
+                        <div class="logo" >
+                        <img src="cid:unique"/>    
+                        </div>
+                        <h2 >Your verification code</h2>
+                        <h3 > ${x}</h3>
+                        <p class="p1">lf you didn't request a code <br> you can safely ignore this email.</p>
+                            <hr>
+                            <p  class='p2'>All content Copyright ©Goldgolio </p>
+                        </div>
+                </body>
+                </html>
                         `
                ,
                
@@ -274,6 +215,7 @@ app.post('/forgetPass',async(req, res) => {
                     if(veremail){
                         await verif_codeModel.updateOne({email:email},{code:x})
                     }else{
+                        console.log("asd");
                         await verif_codeModel.insertMany({email,code:x})
                     }
             }
@@ -294,62 +236,32 @@ app.post('/forgetPass',async(req, res) => {
                 cid: 'unique' //same cid value as in the html img src
             }],    
                 html: `
-                <div  style=" width : 80%; margin: auto;">
-                <div class="logo " style="width : 100%; margin-top:20px ;text-align: center;" >
-                
-                <img src="cid:unique"/>
-                </div>
-                
-                <h2 style="font-family: 'Poppins';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 50px;
-                line-height: 75px;
-                /* identical to box height */
-                text-align: center;
-                
-                color: #111111;">Your verification code</h2>
-                <h3 style="font-family: 'Poppins';
-                font-style: normal;
-                font-weight: 600;
-                font-size: 50px;
-                line-height: 75px;
-                /* identical to box height */
-                text-align: center;
-                
-                color: #111111;
-                width: 15%;
-                margin: auto;
-                border-bottom:3px dashed goldenrod ;
-                
-                "> ${x}</h3>
-                
-                <p style="font-family: 'Poppins';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 30px;
-                line-height: 45px;
-                text-align: center;
-                
-                color: #000000;
-                ">lf you didn't request a code
-                    you can safely ignore this email.</p>
-                
-                
-                    <hr>
-                
-                    <p style="font-family: 'Poppins';
-                    font-style: normal;
-                    font-weight: 500;
-                    font-size: 25px;
-                    line-height: 38px;
-                    /* identical to box height */
-                    
-                    text-align: center;
-                    color: #000000;
-                    ">All content Copyright ©Goldgolio </p>
-                
-                </div>
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500&family=Roboto&family=Rubik&display=swap" rel="stylesheet">
+        <style>
+            .logo{margin-top:20px ;text-align: center}
+            h2{font-family: 'Poppins';font-style: normal;font-weight: 600;font-size: 50px;line-height: 75px;/* identical to box height */text-align: center;color: #111111;}
+            h3{font-family: 'Poppins';font-style: normal;font-weight: 600;font-size: 50px;line-height: 75px;/* identical to box height */color: #111111;text-align: center;margin: auto;border-bottom-width:30px ;}
+            .p1{font-family: 'Poppins';font-style: normal;font-weight: 400;font-size: 30px;line-height: 45px;text-align: center;color: #000000;}
+            .p2{font-family: 'Poppins';font-style: normal;font-weight: 500;font-size: 25px;line-height: 38px;/* identical to box height */text-align: center;color: #000000;}
+            @media all  and (min-width: 100px) and (max-width:760px) {h2{font-size: 20px; } h3{font-size: 30px; } .p1{font-size: 14px;} .p2{font-size: 16px;}}
+        </style>
+                </head>
+                <body>
+                    <div style=" width : 80%; margin: auto;">
+                        <div class="logo" >
+                        <img src="cid:unique"/>    
+                        </div>
+                        <h2 >Your verification code</h2>
+                        <h3 > ${x}</h3>
+                        <p class="p1">lf you didn't request a code <br> you can safely ignore this email.</p>
+                            <hr>
+                            <p  class='p2'>All content Copyright ©Goldgolio </p>
+                        </div>
+                </body>
+                </html>
                         `
                 ,     
            };
@@ -359,6 +271,7 @@ app.post('/forgetPass',async(req, res) => {
                 if(veremail){
                     await verif_codeModel.updateOne({email:email},{code:x})
                 }else{
+                    console.log("sad");
                     await verif_codeModel.insertMany({email,code:x})
                 }
     }

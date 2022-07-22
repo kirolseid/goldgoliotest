@@ -3,9 +3,9 @@ const { check } = require('express-validator');
 module.exports.talented=[
     // check('full_name').isAlpha(),
     check('email').isEmail(),
-    check('phone').isMobilePhone(),
-    check('password').isStrongPassword(),
-    check('gender').isAlpha(),
+    // check('phone').isMobilePhone(),
+    check('password').matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+    // check('gender').isAlpha(),
 
 
     // check('confirmPassword').custom((value, { req }) => {
@@ -24,8 +24,8 @@ module.exports.talented=[
 module.exports.personal=[
     // check('full_name').isAlpha(),
     check('email').isEmail(),
-    check('phone').isMobilePhone(),
-    check('password').isStrongPassword(),
+    // check('phone').isMobilePhone(),
+    check('password').matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
     
     // check('confirmPassword').custom((value, { req }) => {
     //     if (value !== req.body.password) {
@@ -40,9 +40,9 @@ module.exports.coporation=[
     // check('company_name').isAlpha(),
     // check('company_field').isAlpha(),
     check('email').isEmail(),
-    check('phone').isMobilePhone(),
-    check('password').isStrongPassword(),
-    check('address').isAlpha(),
+    // check('phone').isMobilePhone(),
+    check('password').matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+    // check('address').isAlpha(),
 
     // check('confirmPassword').custom((value, { req }) => {
     //     if (value !== req.body.password) {

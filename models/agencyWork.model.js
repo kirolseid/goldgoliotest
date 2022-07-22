@@ -8,6 +8,8 @@ const agency_workSchema =mongoose.Schema({
     mediaType:String,
     title:String,
     caption:String,
+    videoUrl:String,
+
 })
 
 

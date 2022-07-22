@@ -7,6 +7,8 @@ router.get('/findPeople', isAuth, usersControllers.findPeople);
 router.get('/sharedChatRoom/:userId', isAuth, usersControllers.getSharedChatRoom);
 
 router.patch('/createChatRoom', isAuth, usersControllers.createChatRoom);
+router.patch('/blockChat', usersControllers.blockChat);
+
 router.patch('/removeChat', isAuth, usersControllers.removeChat);
 
 
